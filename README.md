@@ -1,8 +1,7 @@
-enable_extension "plpgsql"
+モデル名 Task
 
-create_table "users", force: :cascade do |t|
-  t.text "name"
-  t.text "email"
-end
-
-end
+| name | detail |
+| ---- | ------ |
+|string| string |
+|      |        |
+|      |        |
