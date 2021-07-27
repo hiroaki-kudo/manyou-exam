@@ -6,12 +6,14 @@ RSpec.describe 'タスク管理機能', type: :system do
     FactoryBot.create(:third_task)
   end
 
+
   describe '新規作成機能' do
     context 'タスクを新規作成した場合' do
       it '作成したタスクが表示される' do
       visit new_task_path
       fill_in 'task[name]', with: '勉強'
       fill_in 'task[detail]', with: 'プログラミング'
+      fill_in 'task[end_date]', with: '002025-07-01'
       click_button 'commit'
       expect(page).to have_content '勉強'
       expect(page).to have_content 'プログラミング'
@@ -33,6 +35,16 @@ RSpec.describe 'タスク管理機能', type: :system do
         task_list = all('.task_row')
         expect(task_list[0]).to have_content 'Factoryで作ったデフォルトのタイトル３'
         expect(task_list[1]).to have_content 'Factoryで作ったデフォルトのタイトル２'
+        expect(task_list[2]).to have_content 'Factoryで作ったデフォルトのタイトル１'
+      end
+    end
+    context 'タスクが終了期限の降順に並んでいる場合' do
+      it '新しいタスクの終了期限が最長だった時は一番上に表示される' do
+        visit tasks_path
+        click_on '終了期限でソートする'
+        task_list = all('.task_row')
+        expect(task_list[0]).to have_content 'Factoryで作ったデフォルトのタイトル２'
+        expect(task_list[1]).to have_content 'Factoryで作ったデフォルトのタイトル３'
         expect(task_list[2]).to have_content 'Factoryで作ったデフォルトのタイトル１'
       end
     end

@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_091907) do
     t.string "detail", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "end", null: false
+    t.date "end_date", null: false
   end
 
 end
