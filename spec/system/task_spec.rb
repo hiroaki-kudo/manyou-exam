@@ -15,6 +15,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       fill_in 'task[detail]', with: 'プログラミング'
       fill_in 'task[end_date]', with: '002025-07-01'
       select '未着手'
+      select '低'
       click_button 'commit'
       expect(page).to have_content '勉強'
       expect(page).to have_content 'プログラミング'
@@ -44,9 +45,20 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit tasks_path
         click_on '終了期限でソートする'
         task_list = all('.task_row')
-        sleep 2.0
+        sleep 1.0
         expect(task_list[0]).to have_content 'Factoryで作ったデフォルトのタイトル２'
         expect(task_list[1]).to have_content 'Factoryで作ったデフォルトのタイトル３'
+        expect(task_list[2]).to have_content 'Factoryで作ったデフォルトのタイトル１'
+      end
+    end
+    context '一覧画面の優先順位でソートのボタンを押した場合' do
+      it 'タスクが優先順位の高い順に並び替えられる' do
+        visit tasks_path
+        click_on '優先順位でソートする'
+        task_list = all('.task_row')
+        sleep 1.0
+        expect(task_list[0]).to have_content 'Factoryで作ったデフォルトのタイトル３'
+        expect(task_list[1]).to have_content 'Factoryで作ったデフォルトのタイトル２'
         expect(task_list[2]).to have_content 'Factoryで作ったデフォルトのタイトル１'
       end
     end
