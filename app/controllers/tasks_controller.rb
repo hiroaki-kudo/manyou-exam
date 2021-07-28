@@ -6,6 +6,9 @@ class TasksController < ApplicationController
     else
       @tasks = Task.order(created_at: :desc)
     end
+    if params[:sort_ranked]
+      @tasks = Task.order(rank: :desc)
+    end
     if params[:search].present? && params[:status].present?
       @tasks = Task.search_name_status(params[:search],params[:status])
       # @tasks = Task.where("name LIKE ?", "%#{params[:search]}%")
@@ -45,7 +48,7 @@ class TasksController < ApplicationController
   end
   private
   def task_params
-    params.require(:task).permit(:name, :detail, :end_date, :status)
+    params.require(:task).permit(:name, :detail, :end_date, :status, :rank)
   end
   def set_task
     @task = Task.find(params[:id])
