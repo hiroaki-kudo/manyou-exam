@@ -14,6 +14,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       fill_in 'task[name]', with: '勉強'
       fill_in 'task[detail]', with: 'プログラミング'
       fill_in 'task[end_date]', with: '002025-07-01'
+      select '未着手'
       click_button 'commit'
       expect(page).to have_content '勉強'
       expect(page).to have_content 'プログラミング'
@@ -43,6 +44,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit tasks_path
         click_on '終了期限でソートする'
         task_list = all('.task_row')
+        sleep 2.0
         expect(task_list[0]).to have_content 'Factoryで作ったデフォルトのタイトル２'
         expect(task_list[1]).to have_content 'Factoryで作ったデフォルトのタイトル３'
         expect(task_list[2]).to have_content 'Factoryで作ったデフォルトのタイトル１'
@@ -61,4 +63,44 @@ RSpec.describe 'タスク管理機能', type: :system do
        end
      end
   end
+
+  describe '検索機能' do
+    # before do
+    #   必要に応じて、テストデータの内容を変更して構わない
+    #   FactoryBot.create(:task, title: "task")
+    #   FactoryBot.create(:second_task, title: "sample")
+    # end
+    context 'タイトルであいまい検索をした場合' do
+      it "検索キーワードを含むタスクで絞り込まれる" do
+        visit tasks_path
+        # タスクの検索欄に検索ワードを入力する (例: task)
+        fill_in 'search', with: 'タイトル１'
+        # 検索ボタンを押す
+        click_on '検索'
+        expect(page).to have_content 'タイトル１'
+      end
+    end
+    context 'ステータス検索をした場合' do
+      it "ステータスに完全一致するタスクが絞り込まれる" do
+        # ここに実装する
+        visit tasks_path
+        # プルダウンを選択する「select」について調べてみること
+        select '着手中'
+        click_on '検索'
+        expect(page).to have_content '着手中'
+      end
+    end
+    context 'タイトルのあいまい検索とステータス検索をした場合' do
+      it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
+        # ここに実装する
+        visit tasks_path
+        fill_in 'search', with: 'タイトル３'
+        select '完了'
+        click_on '検索'
+        expect(page).to have_content 'タイトル３'
+        expect(page).to have_content '完了'
+      end
+    end
+  end
+
 end

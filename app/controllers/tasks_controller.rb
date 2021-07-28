@@ -11,7 +11,7 @@ class TasksController < ApplicationController
       # @tasks = Task.where("name LIKE ?", "%#{params[:search]}%")
       #               .where(status: params[:status])
     elsif params[:search].present?
-      @tasks = Task.seach_name(params[:search])
+      @tasks = Task.search_name(params[:search])
     elsif params[:status].present?
       @tasks = Task.search_status(params[:status])
     end
