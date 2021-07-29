@@ -1,4 +1,6 @@
 <h1><%= @user.name %>のページ</h1>
 <p>メールアドレス: <%= @user.email %></p>
 <p>
+<%= link_to "タスク一覧画面へ", tasks_path %>
+<p>
 <%= link_to "Sign up画面へ", new_user_path %>
