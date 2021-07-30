@@ -1,5 +1,6 @@
 class Admin::UsersController < ApplicationController
   skip_before_action :login_required, only: [:index, :new, :create,]
+  before_action :user_admin, only: [:index]
   def index
     @users = User.all.includes(:tasks)
   end
@@ -8,6 +9,11 @@ class Admin::UsersController < ApplicationController
   end
   def create
     @user = User.new(user_params)
+    # kudouに管理者権限を渡す処理
+    # if @user.find(1)
+       # @user.admin = true
+    #    binding.pry
+    #    user.save
     if @user.save
       redirect_to admin_user_path(@user.id)
     else
@@ -37,6 +43,15 @@ class Admin::UsersController < ApplicationController
   private
   def user_params
     params.require(:user).permit(:name, :email, :password,
-                                :password_confirmation)
- end
+                                :password_confirmation, :admin)
+  end
+  def user_admin
+    @users = User.all
+    if current_user.admin == false
+      flash[:aleat] = '管理者以外はアクセスできません'
+      redirect_to root_path
+    else
+      render action: "index"
+    end
+  end
 end
