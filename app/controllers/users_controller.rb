@@ -1,7 +1,13 @@
 class UsersController < ApplicationController
   skip_before_action :login_required, only: [:new, :create]
   def new
-    @user = User.new
+    if current_user.present?
+      flash[:aleat] = 'ログイン中は新規登録画面へ行けません'
+      redirect_to user_path(current_user.id)
+    else
+      @user = User.new
+    end
+    # @user = User.new
   end
   def create
     @user = User.new(user_params)

@@ -3,17 +3,19 @@ class Admin::UsersController < ApplicationController
   before_action :user_admin, only: [:index]
   def index
     @users = User.all.includes(:tasks)
+    # if params[:id]
+    #   user = User.find(params[:id])
+    #   binding.pry
+    #   user.admin = true
+    #   user.save
+    #   flash[:aleat] = 'ロールを付与しました'
+    # end
   end
   def new
     @user = User.new
   end
   def create
     @user = User.new(user_params)
-    # kudouに管理者権限を渡す処理
-    # if @user.find(1)
-       # @user.admin = true
-    #    binding.pry
-    #    user.save
     if @user.save
       redirect_to admin_user_path(@user.id)
     else
