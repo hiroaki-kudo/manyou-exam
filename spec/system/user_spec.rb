@@ -132,6 +132,19 @@ RSpec.describe 'ユーザー管理機能', type: :system do
         expect(page).to have_content 'katou'
       end
     end
+    context '管理ユーザーはユーザーの削除をしようとした場合' do
+      it '削除できる' do
+        visit new_session_path
+        fill_in 'Email', with: 'kamisama@kamisama.com'
+        fill_in 'Password', with: 'kamisamakamisama'
+        click_button 'commit'
+        click_on '管理者画面へ'
+        user = User.find_by(name: 'kudou')
+        click_link '情報を削除する', href: admin_user_path(user.id)
+        binding.pry
+        expect(page).not_to have_content 'kudou'
+      end
+    end
   end
 
 end
