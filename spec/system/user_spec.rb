@@ -111,9 +111,25 @@ RSpec.describe 'ユーザー管理機能', type: :system do
         click_on '管理者画面へ'
         user = User.find_by(name: 'kudou')
         click_link '詳細ページを表示', href: admin_user_path(user.id)
-        binding.pry
         expect(page).to have_content 'kudou'
         expect(page).to have_content 'kudou@kudou.com'
+      end
+    end
+    context '管理ユーザーはユーザーの編集画面に行く場合' do
+      it '編集できる' do
+        visit new_session_path
+        fill_in 'Email', with: 'kamisama@kamisama.com'
+        fill_in 'Password', with: 'kamisamakamisama'
+        click_button 'commit'
+        click_on '管理者画面へ'
+        user = User.find_by(name: 'kudou')
+        click_link '情報を編集する', href: edit_admin_user_path(user.id)
+        fill_in 'user[name]', with: 'katou'
+        fill_in 'user[email]', with: 'katou@katou.com'
+        fill_in 'user[password]', with: 'katoukatou'
+        fill_in 'user[password_confirmation]', with: 'katoukatou'
+        click_button 'commit'
+        expect(page).to have_content 'katou'
       end
     end
   end
