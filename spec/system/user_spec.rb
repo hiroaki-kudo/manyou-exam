@@ -85,6 +85,23 @@ RSpec.describe 'ユーザー管理機能', type: :system do
         expect(page).to have_content '管理者以外はアクセスできません'
       end
     end
+    context '管理ユーザーはユーザーの新規登録をしようとした場合' do
+      it '登録できる' do
+        visit new_session_path
+        fill_in 'Email', with: 'kamisama@kamisama.com'
+        fill_in 'Password', with: 'kamisamakamisama'
+        click_button 'commit'
+        click_on '管理者画面へ'
+        click_on 'ユーザーの新規作成'
+        fill_in 'user[name]', with: 'natou'
+        fill_in 'user[email]', with: 'naitou@naitou.com'
+        fill_in 'user[password]', with: 'naitounaitou'
+        fill_in 'user[password_confirmation]', with: 'naitounaitou'
+        click_button 'commit'
+        expect(page).to have_content 'naitou'
+        expect(page).to have_content 'naitou@naitou.com'
+      end
+    end
   end
 
 end
