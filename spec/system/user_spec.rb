@@ -141,7 +141,6 @@ RSpec.describe 'ユーザー管理機能', type: :system do
         click_on '管理者画面へ'
         user = User.find_by(name: 'kudou')
         click_link '情報を削除する', href: admin_user_path(user.id)
-        binding.pry
         expect(page).not_to have_content 'kudou'
       end
     end
