@@ -9,9 +9,9 @@ class User < ApplicationRecord
 
   private
   def destroy_stop
-    throw(:abort) if admin == true
+    throw(:abort) if admin == true && name == "kamisama"
   end
   def update_stop
-    throw(:abort) if admin == true
+    throw(:abort) if admin == true && name == "kamisama"
   end
 end

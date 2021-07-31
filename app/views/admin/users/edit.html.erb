@@ -18,5 +18,9 @@
   <%= f.password_field :password %>
   <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %>
+
+  <%= f.label :admin %>
+  <%= f.select :admin, [["管理者", "true"], ["一般", "false"]] %>
+
   <%= f.submit "Create my account" %>
 <% end %>
