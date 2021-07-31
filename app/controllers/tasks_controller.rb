@@ -7,7 +7,7 @@ class TasksController < ApplicationController
       @tasks = current_user.tasks.order(created_at: :desc).page(params[:page]).per(3)
     end
     if params[:sort_ranked]
-      @tasks = current_user.tasks..order(rank: :desc).page(params[:page]).per(3)
+      @tasks = current_user.tasks.order(rank: :desc).page(params[:page]).per(3)
     end
     if params[:search].present? && params[:status].present?
       @tasks = current_user.tasks.search_name_status(params[:search],params[:status]).page(params[:page]).per(3)

@@ -9,6 +9,7 @@ FactoryBot.define do
     status { '未着手' }
     rank  { '低' }
     association :user
+
   end
   # 作成するテストデータの名前を「second_task」とします
   # （存在しないクラス名の名前をつける場合、オプションで「このクラスのテストデータにしてください」と指定します）
@@ -18,7 +19,7 @@ FactoryBot.define do
     end_date { '2021-07-05' }
     status { '着手中' }
     rank  { '中' }
-    association :user
+    association :user ,factory: :second_user
   end
 
   factory :third_task, class: Task do
@@ -27,6 +28,6 @@ FactoryBot.define do
     end_date { '2021-07-03' }
     status { '完了' }
     rank  { '高' }
-    association :user
+    association :user ,factory: :third_user
   end
 end
