@@ -64,6 +64,17 @@ RSpec.describe 'ユーザー管理機能', type: :system do
     end
   end
 
-
+  describe '管理画面のテスト' do
+    context '管理ユーザーは管理画面にアクセスした場合' do
+      it 'アクセスできる' do
+        visit new_session_path
+        fill_in 'Email', with: 'kamisama@kamisama.com'
+        fill_in 'Password', with: 'kamisamakamisama'
+        click_button 'commit'
+        click_on '管理者画面へ'
+        expect(page).to have_content '管理画面のユーザー一覧画面'
+      end
+    end
+  end
 
 end
