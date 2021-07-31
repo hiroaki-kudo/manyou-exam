@@ -102,6 +102,20 @@ RSpec.describe 'ユーザー管理機能', type: :system do
         expect(page).to have_content 'naitou@naitou.com'
       end
     end
+    context '管理ユーザーはユーザーの詳細画面にアクセスしようとした場合' do
+      it 'アクセスできる' do
+        visit new_session_path
+        fill_in 'Email', with: 'kamisama@kamisama.com'
+        fill_in 'Password', with: 'kamisamakamisama'
+        click_button 'commit'
+        click_on '管理者画面へ'
+        user = User.find_by(name: 'kudou')
+        click_link '詳細ページを表示', href: admin_user_path(user.id)
+        binding.pry
+        expect(page).to have_content 'kudou'
+        expect(page).to have_content 'kudou@kudou.com'
+      end
+    end
   end
 
 end
