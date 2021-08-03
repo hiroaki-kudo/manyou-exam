@@ -2,21 +2,21 @@ class TasksController < ApplicationController
   before_action :set_task, only:[:show, :edit, :update, :destroy]
   def index
     if params[:sort_expired]
-      @tasks = Task.order(end_date: :desc).page(params[:page]).per(3)
+      @tasks = current_user.tasks.order(end_date: :desc).page(params[:page]).per(3)
     else
-      @tasks = Task.order(created_at: :desc).page(params[:page]).per(3)
+      @tasks = current_user.tasks.order(created_at: :desc).page(params[:page]).per(3)
     end
     if params[:sort_ranked]
-      @tasks = Task.order(rank: :desc).page(params[:page]).per(3)
+      @tasks = current_user.tasks.order(rank: :desc).page(params[:page]).per(3)
     end
     if params[:search].present? && params[:status].present?
-      @tasks = Task.search_name_status(params[:search],params[:status]).page(params[:page]).per(3)
+      @tasks = current_user.tasks.search_name_status(params[:search],params[:status]).page(params[:page]).per(3)
       # @tasks = Task.where("name LIKE ?", "%#{params[:search]}%")
       #               .where(status: params[:status])
     elsif params[:search].present?
-      @tasks = Task.search_name(params[:search]).page(params[:page]).per(3)
+      @tasks = current_user.tasks.search_name(params[:search]).page(params[:page]).per(3)
     elsif params[:status].present?
-      @tasks = Task.search_status(params[:status]).page(params[:page]).per(3)
+      @tasks = current_user.tasks.search_status(params[:status]).page(params[:page]).per(3)
     end
   end
   def new
@@ -24,6 +24,7 @@ class TasksController < ApplicationController
   end
   def create
     @task = Task.new(task_params)
+    @task.user_id = current_user.id
     if @task.save
       redirect_to tasks_path, notice: "タスクを作成しました！"
     else

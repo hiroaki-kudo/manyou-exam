@@ -1,0 +1,23 @@
+<h1><%= @user.name %>のページ</h1>
+<p>メールアドレス: <%= @user.email %></p>
+<p>
+  <table>
+    <tr>
+      <th>タスク名</th>
+      <th>タスク詳細</th>
+      <th>終了期限</th>
+      <th>ステータス</th>
+      <th>優先度</th>
+    </tr>
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= task.name %></td>
+        <td><%= task.detail %></td>
+        <td><%= task.end_date %></td>
+        <td><%= task.status %></td>
+        <td><%= task.rank %></td>
+      </tr>
+    <% end %>
+  </table>
+<p>
+<%= link_to "Sign up画面へ", new_user_path %>
