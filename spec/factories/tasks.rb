@@ -10,6 +10,13 @@ FactoryBot.define do
     rank  { '低' }
     association :user
 
+    trait :with_a_task_and_title_labels do
+    after(:build) do |task|
+     # label = create(:label)
+     task.task_labels << FactoryBot.build(:task_labels, :with_labels)
+   end
+   end
+
   end
   # 作成するテストデータの名前を「second_task」とします
   # （存在しないクラス名の名前をつける場合、オプションで「このクラスのテストデータにしてください」と指定します）
