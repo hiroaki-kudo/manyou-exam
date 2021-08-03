@@ -5,11 +5,6 @@
 <p>ステータス: <%= @task.status %></p>
 <p>優先度: <%= @task.rank %></p>
 
-<p>
-
-<%= form_with(model: @task, local: true) do |form| %>
-  <% form.task_labels.each do |task_label| %>
-      <%= task_label.label.title %><br>
-  <% end %>
+<% @task.labels.each do |t| %>
+  <p>選択したラベル一覧: <%= t.title %></p>
 <% end %>
-</p>

@@ -4,6 +4,7 @@
 <%= form_with url: tasks_path, method: :get, local: true do |h| %>
   <%= h.text_field :search ,size: "20x10" %>
   <%= h.select :status, Task.statuses.keys ,{ include_blank: "選択してください" } %>
+  <%= h.select("label_id", Label.pluck(:title, :id), { include_blank: true }) %>
   <%= h.submit '検索', name: nil %>
 <% end %>
 
