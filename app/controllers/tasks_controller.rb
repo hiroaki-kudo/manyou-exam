@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only:[:show, :edit, :update, :destroy]
   def index
+    @tasks = Task.all
     if params[:sort_expired]
       @tasks = current_user.tasks.order(end_date: :desc).page(params[:page]).per(3)
     else
@@ -17,6 +18,8 @@ class TasksController < ApplicationController
       @tasks = current_user.tasks.search_name(params[:search]).page(params[:page]).per(3)
     elsif params[:status].present?
       @tasks = current_user.tasks.search_status(params[:status]).page(params[:page]).per(3)
+    elsif params[:label_id].present?
+      @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_id] }).per(3)
     end
   end
   def new
@@ -32,7 +35,6 @@ class TasksController < ApplicationController
     end
   end
   def edit
-
   end
   def update
     if @task.update(task_params)
@@ -42,6 +44,8 @@ class TasksController < ApplicationController
     end
   end
   def show
+    # binding.pry
+    # Task.where(id: task_id)
   end
   def destroy
     @task.destroy
@@ -49,7 +53,7 @@ class TasksController < ApplicationController
   end
   private
   def task_params
-    params.require(:task).permit(:name, :detail, :end_date, :status, :rank)
+    params.require(:task).permit(:name, :detail, :end_date, :status, :rank, label_ids: [] )
   end
   def set_task
     @task = Task.find(params[:id])

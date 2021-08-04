@@ -4,3 +4,7 @@
 <p>終了期限: <%= @task.end_date %></p>
 <p>ステータス: <%= @task.status %></p>
 <p>優先度: <%= @task.rank %></p>
+
+<% @task.labels.each do |t| %>
+  <p>選択したラベル一覧: <%= t.title %></p>
+<% end %>
