@@ -77,9 +77,7 @@ RSpec.describe 'タスク管理機能', type: :system do
          click_link '編集', href: edit_task_path(task.id)
          check "sample2"
          click_button 'commit'
-         binding.pry
          click_link '詳細', href: task_path(task.id)
-         binding.pry
          expect(page).to have_content 'sample1'
          expect(page).to have_content 'sample2'
        end
